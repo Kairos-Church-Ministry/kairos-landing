@@ -1,95 +1,69 @@
 import type { Metadata } from 'next'
-import { REM } from 'next/font/google'
+import { Caveat, REM } from 'next/font/google'
 import { type ReactNode } from 'react'
-import Image from 'next/image'
 import NextTopLoader from 'nextjs-toploader'
 import dynamic from 'next/dynamic'
 import { Toaster } from 'sonner'
 
 import '@/assets/css/style.css'
+import { church } from '@/content/church'
 
 const AppProvidersWrapper = dynamic(
   () => import('@/components/AppsProviderWrapper'),
   { ssr: false }
 )
-const BackToTop = dynamic(() => import('@/components/BackToTop'))
-
 const rem = REM({
-  weight: ['200', '300', '400', '500', '600', '700'],
+  weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
   adjustFontFallback: false,
   subsets: ['latin'],
+  variable: '--font-body',
 })
 
+/** Used only for the handwritten invitations the church prints on its brochure. */
+const caveat = Caveat({
+  weight: ['600'],
+  display: 'swap',
+  adjustFontFallback: false,
+  subsets: ['latin'],
+  variable: '--font-script',
+})
+
+/**
+ * Set NEXT_PUBLIC_SITE_URL to the live domain in the deployment environment so
+ * canonical and Open Graph URLs resolve absolutely. Falls back to localhost for
+ * local development rather than guessing at a production hostname.
+ */
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default:
-      'AeroPage Next - Tailwind CSS Multipurpose One Page Landing Template',
-    template:
-      '%s | AeroPage Next - Tailwind CSS Multipurpose One Page Landing Template',
+    default: `${church.name} — ${church.tagline}`,
+    template: `%s | ${church.shortName}`,
   },
-  description:
-    'AeroPage - a cutting-edge, one-page template designed for unparalleled performance and seamless user experiences. This versatile template, initially released as AeroPage One Page Template, serves as the perfect starting point for your next project, showcasing expertise in building real websites with Tailwind CSS. The AeroPage Template epitomizes flexibility, user-friendliness, and responsiveness, delivering a seamless browsing experience across various devices, be it desktops, tablets, or mobiles. This template boasts an immaculately organized folder structure, clean code, and comprehensive comments, simplifying the process of customization. Built on the Tailwind CSS, AeroPage ensures compatibility across all devices, and its codebase is fully documented and W3C validated. Elevate your digital presence and captivate your audience with the AeroPage Template today.',
+  description: `${church.shortName} is a Christian Fellowship in ${church.location.city}, ${church.location.region}. Sunday worship at 9:30 AM, Kids Sunday School at 10:30 AM, and Thursday Prayer Night & Worship at 7:00 PM. Everyone's welcome — come as you are.`,
+  applicationName: church.name,
+  keywords: [
+    church.name,
+    church.shortName,
+    `church in ${church.location.city}`,
+    `Christian fellowship ${church.location.region}`,
+    'Sunday worship Consolacion Cebu',
+  ],
 }
-
-const splashScreenStyles = `
-#splash-screen {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  background: white;
-  display: flex;
-  height: 100%;
-  width: 100%;
-  transform: translate(-50%, -50%);
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  opacity: 1;
-  transition: all 15s linear;
-  overflow: hidden;
-}
-
-#splash-screen.remove {
-  animation: fadeout 0.7s forwards;
-  z-index: 0;
-}
-
-@keyframes fadeout {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-`
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en">
-      <head>
-        <style>{splashScreenStyles}</style>
-      </head>
-
+    <html lang="en" className={`${rem.variable} ${caveat.variable}`}>
       <body className={rem.className}>
-        <div id="splash-screen">
-          <Image
-            alt="Logo"
-            width={355}
-            height={83}
-            src={'/logo-dark.png'}
-            style={{ height: '10%', width: 'auto' }}
-          />
-        </div>
-        <NextTopLoader color="#ea580c" showSpinner={false} />
-        <div id="__next_splash">
-          <AppProvidersWrapper>
-            {children}
-            <BackToTop />
-            <Toaster richColors />
-          </AppProvidersWrapper>
-        </div>
+        <NextTopLoader color="#f29a22" showSpinner={false} />
+        <AppProvidersWrapper>
+          {children}
+          <Toaster richColors />
+        </AppProvidersWrapper>
       </body>
     </html>
   )

@@ -6,9 +6,8 @@ import Link from 'next/link'
 import { useEffect } from 'react'
 
 const Logout = () => {
-
   useEffect(() => {
-    async function logoutUser () {
+    async function logoutUser() {
       await signOut({ redirect: false })
     }
     logoutUser()

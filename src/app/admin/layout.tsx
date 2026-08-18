@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import NextTopLoader from 'nextjs-toploader'
 const Footer = dynamic(() => import('@/components/adminComponents/Footer'))
 const TopBar = dynamic(() => import('@/components/adminComponents/TopBar'))
+const BackToTop = dynamic(() => import('@/components/BackToTop'))
 
 const loading = () => <div />
 
@@ -26,7 +27,7 @@ const Layout = ({ children }: Readonly<{ children: ReactNode }>) => {
   }
 
   if (status == 'loading') {
-    return <NextTopLoader color="#ea580c" showSpinner={false} />
+    return <NextTopLoader color="#f29a22" showSpinner={false} />
   }
 
   return (
@@ -40,6 +41,8 @@ const Layout = ({ children }: Readonly<{ children: ReactNode }>) => {
       <Suspense fallback={loading()}>
         <Footer />
       </Suspense>
+
+      <BackToTop />
     </>
   )
 }

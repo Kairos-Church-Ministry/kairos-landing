@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Kairos for Christ Christian Fellowship
 
-## Getting Started
+The public website for Kairos for Christ Christian Fellowship — Sta. Lucia
+Townsquare, Poblacion Oriental, Consolacion, Cebu.
 
-First, run the development server:
+Built with [Next.js](https://nextjs.org/) (App Router) and Tailwind CSS.
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+| Command          | What it does                          |
+| ---------------- | ------------------------------------- |
+| `npm run dev`    | Development server with Turbopack     |
+| `npm run build`  | Type-check, then build for production |
+| `npm start`      | Serve the production build            |
+| `npm run lint`   | ESLint via `next lint`                |
+| `npm run format` | Prettier over `src`                   |
 
-## Learn More
+## Where things live
 
-To learn more about Next.js, take a look at the following resources:
+| Path                                | Contents                                                        |
+| ----------------------------------- | --------------------------------------------------------------- |
+| `src/app/page.tsx`                  | The landing page — composes the sections and holds SEO metadata |
+| `src/content/church.ts`             | **All site copy.** Service times, ministries, events, contact   |
+| `src/components/kairos/`            | The landing page's sections and shared pieces                   |
+| `src/assets/images/kairos/`         | Church photography and the slot manifest (`photos.ts`)          |
+| `src/assets/css/custom/_tokens.css` | Design tokens — colours, radii, shadows, motion                 |
+| `tailwind.config.ts`                | The same tokens exposed as Tailwind utilities                   |
+| `src/app/admin/`, `src/app/auth/`   | Authenticated areas carried over from the original template     |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Editing the site
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Nearly every change is a change to [`src/content/church.ts`](src/content/church.ts).
+It is typed, commented, and holds the service times, ministries, life groups,
+events, announcements, address, and contact details. Components read from it;
+they never hard-code copy.
 
-## Deploy on Vercel
+**Announcements** start empty. Add entries to the `announcements` array and the
+Announcements section publishes them; leave it empty and the section shows its
+empty state.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Photographs** work the same way — see
+[`src/assets/images/kairos/README.md`](src/assets/images/kairos/README.md).
+Slots without a file render a branded placeholder rather than stock imagery.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Only add facts the church has confirmed. No invented schedules, addresses, or
+statistics.
+
+## Design system
+
+Colours, spacing, radii, shadows, and motion are defined once in
+`src/assets/css/custom/_tokens.css` and mirrored as Tailwind utilities in
+`tailwind.config.ts`. Use the utilities (`bg-primary`, `text-ink`,
+`rounded-card`, `duration-base`) rather than raw hex values.
+
+| Role         | Token                    | Value                 |
+| ------------ | ------------------------ | --------------------- |
+| Primary      | `primary` / `bg-primary` | `#101d83`             |
+| Primary dark | `navy`                   | `#12263d`             |
+| Accent blue  | `primary-600`            | `#17249e`             |
+| Secondary    | `secondary`              | `#a96956`             |
+| Accent       | `accent`                 | `#f29a22`             |
+| Background   | `cream-50`               | `#fbf6ef`             |
+| Surface      | `cream-100` / `sand`     | `#f3e8da` / `#dcc6ae` |
+| Text         | `ink`                    | `#1c1b1a`             |
+| Muted text   | `muted`                  | `#5a636b`             |
+| Text on dark | `on-dark`                | `#fff9f0`             |
+
+The public landing page is light-only by design. The `dark` class theme is
+retained for the admin area.
+
+## Credits
+
+The application scaffold began as the AeroPage template by
+[Coderthemes](https://coderthemes.com/).

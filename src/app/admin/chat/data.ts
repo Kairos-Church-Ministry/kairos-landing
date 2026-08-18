@@ -22,16 +22,18 @@ export type ChatMessage = {
   id: number
   from: ChatUser
   to: ChatUser
-  message: {
-    type: 'text'
-    value: string
-  } | {
-    type: 'file'
-    value: {
-      file: string
-      size: string
-    }
-  }
+  message:
+    | {
+        type: 'text'
+        value: string
+      }
+    | {
+        type: 'file'
+        value: {
+          file: string
+          size: string
+        }
+      }
   sendOn?: string
 }
 

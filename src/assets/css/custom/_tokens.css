@@ -1,0 +1,83 @@
+/*
+  Kairos for Christ Christian Fellowship - design tokens
+  Single source of truth for the public site's visual language.
+  Tailwind reads these through tailwind.config.ts, so prefer the
+  utility classes (bg-primary, text-ink, rounded-card ...) in components
+  and only reach for var(--...) inside raw CSS.
+*/
+
+:root {
+  /* Brand ---------------------------------------------------------- */
+  --color-primary: #101d83; /* deep royal blue  - nav, footer, primary buttons */
+  --color-primary-hover: #0d1868;
+  --color-primary-dark: #12263d; /* midnight navy    - headings, image overlays */
+  --color-primary-accent: #17249e; /* vibrant indigo   - links, hover states */
+
+  --color-secondary: #a96956; /* muted terracotta - ministry labels, eyebrows */
+  --color-secondary-hover: #8f5445;
+
+  --color-accent: #f29a22; /* warm orange      - CTAs, highlights, script accents */
+  --color-accent-hover: #d87f0f;
+
+  /* Surfaces ------------------------------------------------------- */
+  --color-background: #f3e8da; /* soft cream  - page background */
+  --color-surface: #ffffff; /* cards on cream */
+  --color-surface-muted: #dcc6ae; /* warm beige  - banded sections, quiet cards */
+
+  /* Text ----------------------------------------------------------- */
+  --color-text: #1c1b1a; /* charcoal */
+  /* Slate gray, darkened from the brand's #67717a so body copy clears WCAG AA
+     (4.5:1) on the cream-100 bands, where the original measured 4.06:1. */
+  --color-text-muted: #5a636b;
+  --color-text-on-dark: #fff9f0; /* warm white */
+
+  /* Lines and focus ------------------------------------------------ */
+  --color-border: #e0cdb6;
+  --color-border-strong: #c9ac8d;
+  --color-focus: #17249e;
+
+  /* Radii ---------------------------------------------------------- */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-card: 1.25rem;
+  --radius-pill: 9999px;
+
+  /* Shadows - deliberately soft; the brand leans on colour, not depth */
+  --shadow-sm: 0 1px 2px rgba(18, 38, 61, 0.06);
+  --shadow-card: 0 6px 20px -8px rgba(18, 38, 61, 0.14);
+  --shadow-lifted: 0 16px 40px -18px rgba(18, 38, 61, 0.28);
+
+  /* Motion --------------------------------------------------------- */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+}
+
+/* Anchor targets sit clear of the fixed header when jumped to. */
+.kairos-page [id] {
+  scroll-margin-top: 6rem;
+}
+
+/* Visible, high-contrast focus for keyboard users across the public site. */
+.kairos-page :focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Focus rings on dark blue bands need the warm white instead. */
+.kairos-page .on-dark :focus-visible {
+  outline-color: var(--color-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kairos-page *,
+  .kairos-page *::before,
+  .kairos-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

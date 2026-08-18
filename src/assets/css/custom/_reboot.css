@@ -1,8 +1,14 @@
 /* _reboot.css */
 
-
 html {
   @apply relative scroll-smooth;
+}
+
+/* Anchor jumps must not animate for visitors who ask for reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {

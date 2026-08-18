@@ -1,0 +1,80 @@
+/*
+  Kairos for Christ Christian Fellowship - scroll motion.
+
+  One shared reveal primitive, driven by the <Reveal> component
+  (src/components/kairos/Reveal.tsx): elements start slightly offset and
+  transparent, then settle as they enter the viewport. Only `opacity` and
+  `transform` animate, so the browser can keep the whole thing on the
+  compositor and never re-layout mid-scroll.
+
+  Motion is a courtesy, not a gate: if JavaScript never runs, the <noscript>
+  rule in src/app/page.tsx shows everything, and visitors who ask for reduced
+  motion get the finished state immediately.
+*/
+
+:root {
+  --duration-reveal: 700ms;
+  /* Decelerating ease - quick to start, unhurried as it lands. */
+  --ease-reveal: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --reveal-shift: 1.75rem;
+}
+
+.reveal {
+  opacity: 0;
+  transition:
+    opacity var(--duration-reveal) var(--ease-reveal),
+    transform var(--duration-reveal) var(--ease-reveal);
+}
+
+.reveal-up {
+  transform: translate3d(0, var(--reveal-shift), 0);
+}
+
+.reveal-down {
+  transform: translate3d(0, calc(var(--reveal-shift) * -1), 0);
+}
+
+.reveal-left {
+  transform: translate3d(calc(var(--reveal-shift) * -1), 0, 0);
+}
+
+.reveal-right {
+  transform: translate3d(var(--reveal-shift), 0, 0);
+}
+
+.reveal-zoom {
+  transform: scale(0.965);
+}
+
+.reveal-fade {
+  transform: none;
+}
+
+/* Two classes deep, so it always wins over the direction rule above. */
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/*
+  Thin progress rule under the header, tracking how far down the page the
+  visitor has read. Scaled rather than resized, so it never triggers layout.
+*/
+.scroll-progress {
+  transform-origin: left center;
+  transform: scaleX(var(--scroll-progress, 0));
+  transition: transform 120ms linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .scroll-progress {
+    transition: none !important;
+  }
+}

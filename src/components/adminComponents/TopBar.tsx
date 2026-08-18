@@ -1,6 +1,5 @@
-import logoLight from '@/assets/images/logo-light.png'
 import AdminMenu from '@/components/adminComponents/AdminMenu'
-import Image from 'next/image'
+import BrandMark from '@/components/kairos/BrandMark'
 import Link from 'next/link'
 import { LuSearch } from 'react-icons/lu'
 import AppsDropdown from './AppsDropdown'
@@ -15,13 +14,7 @@ const TopBar = () => {
         <nav className="container flex w-full items-center justify-between gap-6">
           <div>
             <Link href="/" className="block">
-              <Image
-                src={logoLight}
-                width={118}
-                height={32}
-                className="flex h-8"
-                alt="images"
-              />
+              <BrandMark tone="dark" />
             </Link>
           </div>
           <div className="flex items-center gap-3">

@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { type ReactNode, Suspense } from 'react'
 
 import authBgImg from '@/assets/images/other/auth-bg.jpg'
-import logoLight from '@/assets/images/logo-light.png'
 import otherAuthImg from '@/assets/images/other/auth-img.jpg'
+import BrandMark from '@/components/kairos/BrandMark'
 
 const Layout = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
@@ -31,13 +31,7 @@ const Layout = ({ children }: Readonly<{ children: ReactNode }>) => {
             <div>
               <div className="flex h-full flex-col p-6">
                 <Link href="/auth/sign-in" className="mb-8 block shrink">
-                  <Image
-                    className="h-8"
-                    src={logoLight}
-                    width={118}
-                    height={32}
-                    alt="images"
-                  />
+                  <BrandMark tone="dark" />
                 </Link>
 
                 <Suspense fallback={<div />}>{children}</Suspense>
