@@ -54,6 +54,7 @@ const ChurchImage = ({
       className={cn(
         'relative overflow-hidden rounded-card',
         ratioClass[ratio],
+        lgRatio && lgRatioClass[lgRatio],
         className
       )}
     >
@@ -65,6 +66,8 @@ const ChurchImage = ({
           sizes={sizes}
           priority={priority}
           loading={priority ? undefined : 'lazy'}
+          // Every slot is a static import, so Next supplies the blur data URL.
+          placeholder="blur"
           className="object-cover"
         />
       ) : (

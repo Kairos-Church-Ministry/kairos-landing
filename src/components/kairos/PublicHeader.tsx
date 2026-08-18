@@ -18,8 +18,11 @@ import BrandMark from './BrandMark'
  *
  * Sticky is justified here: the landing page is a single long scroll, so the
  * navigation is the only way back to another section without scrolling by hand.
- * It stays transparent over the hero and turns solid once the page moves, and
- * carries a thin rule showing how far down the page the visitor has read.
+ *
+ * Over the hero photograph it carries no background at all and switches to the
+ * light-on-dark palette; once the page moves it settles onto solid cream and
+ * returns to navy type. It also carries a thin rule showing how far down the
+ * page the visitor has read.
  */
 const PublicHeader = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -137,9 +140,13 @@ const PublicHeader = () => {
 
   const navLinkClass = (id: string) =>
     cn(
-      'relative inline-flex items-center rounded-sm px-1 py-2 text-[0.95rem] font-medium text-navy/80 transition-colors duration-base hover:text-primary',
+      'relative inline-flex items-center rounded-sm px-1 py-2 text-[0.95rem] font-medium transition-colors duration-base',
+      isScrolled
+        ? 'text-navy/80 hover:text-primary'
+        : 'text-cream-100/90 hover:text-on-dark',
       activeSection === id &&
-        'font-semibold text-primary after:absolute after:inset-x-1 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-accent'
+        'font-semibold after:absolute after:inset-x-1 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-accent',
+      activeSection === id && (isScrolled ? 'text-primary' : 'text-on-dark')
     )
 
   return (
@@ -153,9 +160,12 @@ const PublicHeader = () => {
 
       <header
         className={cn(
-          'fixed inset-x-0 top-0 z-[60] transition-colors duration-base',
-          'border-b bg-cream-50/95 backdrop-blur',
-          isScrolled ? 'border-line/70 shadow-sm' : 'border-transparent'
+          'fixed inset-x-0 top-0 z-[60] border-b transition-colors duration-base',
+          isScrolled
+            ? 'border-line/70 bg-cream-50/95 shadow-sm backdrop-blur'
+            : // Nothing behind it over the hero, so focus rings need the warm
+              // accent that `on-dark` supplies.
+              'on-dark border-transparent bg-transparent'
         )}
       >
         <div className="container">
@@ -165,7 +175,7 @@ const PublicHeader = () => {
               aria-label="Kairos for Christ Christian Fellowship, back to top"
               className="rounded-sm"
             >
-              <BrandMark />
+              <BrandMark tone={isScrolled ? 'light' : 'dark'} priority />
             </Link>
 
             <nav aria-label="Primary" className="hidden lg:block">
@@ -200,7 +210,12 @@ const PublicHeader = () => {
                 onClick={() => setIsMenuOpen(true)}
                 aria-expanded={isMenuOpen}
                 aria-controls="mobile-menu"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-md text-navy transition-colors duration-base hover:bg-cream-200 lg:hidden"
+                className={cn(
+                  'inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors duration-base lg:hidden',
+                  isScrolled
+                    ? 'text-navy hover:bg-cream-200'
+                    : 'text-on-dark hover:bg-white/15'
+                )}
               >
                 <LuMenu className="h-6 w-6" aria-hidden="true" />
                 <span className="sr-only">Open menu</span>
@@ -221,7 +236,10 @@ const PublicHeader = () => {
       {/* Mobile navigation */}
       <div
         className={cn(
-          'fixed inset-0 z-[65] lg:hidden',
+          // `overflow-hidden` clips the panel while it sits parked off the
+          // right edge. Without it the closed drawer widens the page and the
+          // whole site can be scrolled sideways on a phone.
+          'fixed inset-0 z-[65] overflow-hidden lg:hidden',
           isMenuOpen ? 'visible' : 'invisible'
         )}
         aria-hidden={!isMenuOpen}

@@ -9,22 +9,21 @@ instead of a stock photo. Nothing on the site invents a picture of the church.
 
 ## Slots the landing page uses
 
-| Slot            | Where it appears           | Suggested crop | Notes                                              |
-| --------------- | -------------------------- | -------------- | -------------------------------------------------- |
-| `hero`          | Hero, right column         | 4:5 portrait   | The LCP image. Congregation or worship, faces up high. |
-| `welcome`       | Welcome / About            | 4:3 landscape  | People connecting before or after a service.        |
-| `featuredEvent` | Divine Encounter feature   | 16:9 landscape | Wide shot of the gathering.                         |
-| `visit`         | First-time visitor CTA     | 3:2 landscape  | The entrance, or a welcome team greeting guests.    |
+| Slot            | Where it appears         | Suggested crop | Notes                                            |
+| --------------- | ------------------------ | -------------- | ------------------------------------------------ |
+| `welcome`       | Welcome / About          | 4:3 landscape  | People connecting before or after a service.     |
+| `featuredEvent` | Divine Encounter feature | 16:9 landscape | Wide shot of the gathering.                      |
+| `visit`         | First-time visitor CTA   | 3:2 landscape  | The entrance, or a welcome team greeting guests. |
 
 ## Adding a photo
 
-1. Save the file here, e.g. `hero.jpg`.
+1. Save the file here, e.g. `welcome.jpg`.
 2. Import it at the top of `photos.ts` and assign it to the matching slot.
 3. Update that slot's `alt` text to describe what is actually in the picture.
 
 ## Guidance
 
-- Export at roughly 2× the display width (hero ≈ 1200px wide, wide crops ≈ 1600px).
+- Export at roughly 2× the display width (wide crops ≈ 1600px).
 - Prefer JPEG for photographs; keep files under ~400 KB.
 - `next.config.mjs` sets `images.unoptimized`, so the file you commit is the file
   that ships. Compress before committing.

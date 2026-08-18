@@ -13,7 +13,7 @@
 */
 
 :root {
-  --duration-reveal: 700ms;
+  --duration-reveal: 1000ms;
   /* Decelerating ease - quick to start, unhurried as it lands. */
   --ease-reveal: cubic-bezier(0.22, 0.61, 0.36, 1);
   --reveal-shift: 1.75rem;
@@ -48,6 +48,19 @@
 
 .reveal-fade {
   transform: none;
+}
+
+/*
+  Sideways reveals belong to the two-column layouts. Once the columns stack, a
+  full-width card shifted 1.75rem sideways reaches past the viewport edge and
+  the whole page can be dragged horizontally, so below `sm` the left and right
+  variants rise like everything else.
+*/
+@media (max-width: 639px) {
+  .reveal-left,
+  .reveal-right {
+    transform: translate3d(0, var(--reveal-shift), 0);
+  }
 }
 
 /* Two classes deep, so it always wins over the direction rule above. */

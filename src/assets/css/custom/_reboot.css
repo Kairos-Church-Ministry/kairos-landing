@@ -1,7 +1,9 @@
 /* _reboot.css */
 
+/* `clip` rather than `hidden`: it rules out sideways scrolling without turning
+   the page into a scroll container, which fixed and sticky elements rely on. */
 html {
-  @apply relative scroll-smooth;
+  @apply relative overflow-x-clip scroll-smooth;
 }
 
 /* Anchor jumps must not animate for visitors who ask for reduced motion. */

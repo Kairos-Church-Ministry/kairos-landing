@@ -2,7 +2,6 @@
   "name": "aeropage-next",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "author": {
     "name": "Coderthemes",
     "url": "https://coderthemes.com/"

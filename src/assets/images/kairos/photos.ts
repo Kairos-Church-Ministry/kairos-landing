@@ -1,16 +1,18 @@
 import type { StaticImageData } from 'next/image'
 
+import divineEncounter from '../divine-encounter.png'
+import ourCommunity from '../our-community.png'
+
 /**
  * Photography slots for the public landing page.
  *
- * The repository ships without photographs of the church, so every slot starts
- * with `src: null` and the page renders a branded placeholder in its place.
- * See README.md in this folder for how to fill a slot.
+ * A slot with `src: null` has no photograph yet, and the page renders a branded
+ * placeholder in its place. See README.md in this folder for how to fill one.
  *
  * When adding a photo:
- *   import hero from './hero.jpg'
+ *   import visit from './visit.jpg'
  *   ...
- *   hero: { src: hero, alt: 'The congregation singing during Sunday worship' }
+ *   visit: { src: visit, alt: 'The entrance on a Sunday morning' }
  */
 
 export type Photo = {
@@ -22,21 +24,16 @@ export type Photo = {
   placeholderLabel: string
 }
 
-export type PhotoSlot = 'hero' | 'welcome' | 'featuredEvent' | 'visit'
+export type PhotoSlot = 'welcome' | 'featuredEvent' | 'visit'
 
 export const photos: Record<PhotoSlot, Photo> = {
-  hero: {
-    src: null,
-    alt: 'The Kairos for Christ congregation gathered in worship',
-    placeholderLabel: 'Congregation in worship',
-  },
   welcome: {
-    src: null,
-    alt: 'Members of Kairos for Christ greeting one another after a service',
+    src: ourCommunity,
+    alt: 'Members of Kairos for Christ gathered together as a community',
     placeholderLabel: 'Our community',
   },
   featuredEvent: {
-    src: null,
+    src: divineEncounter,
     alt: 'A Divine Encounter with God gathering at Kairos for Christ',
     placeholderLabel: 'Divine Encounter with God',
   },

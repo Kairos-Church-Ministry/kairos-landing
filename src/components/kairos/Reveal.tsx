@@ -82,9 +82,11 @@ const Reveal = ({
         }
       },
       // Threshold 0 with the bottom edge pulled in: the reveal starts once the
-      // element's top crosses the lower tenth of the viewport, which works the
-      // same for a small card and for a section taller than the screen.
-      { threshold: 0, rootMargin: '0px 0px -10% 0px' }
+      // element's top crosses the lower edge of the viewport, which works the
+      // same for a small card and for a section taller than the screen. Only a
+      // sliver is held back, so the section is already easing in by the time it
+      // is properly in view rather than catching up after it arrives.
+      { threshold: 0, rootMargin: '0px 0px -4% 0px' }
     )
 
     observer.observe(node)

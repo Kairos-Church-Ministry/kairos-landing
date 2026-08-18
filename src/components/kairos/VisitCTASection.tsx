@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { LuClock, LuFacebook, LuMapPin, LuPhone } from 'react-icons/lu'
 import {
   church,
@@ -5,12 +6,19 @@ import {
   serviceTimes,
   visitorNotes,
 } from '@/content/church'
+import visitBackground from '@/assets/images/footer-bg.png'
 import ChurchImage from './ChurchImage'
 import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 
 /**
  * First-time visitor section.
+ *
+ * A photograph of people arriving at the church sits behind the copy, under a
+ * royal blue scrim. The photograph is black and white, so the scrim does the
+ * colouring: it carries the band back to the brand blue the rest of the page
+ * uses, and it keeps the cream type well clear of the picture's bright
+ * highlights — the signage and the pale wall behind the doorway.
  *
  * Everything here is confirmed church information: the service times, the
  * address, and the phone number the church publishes. There is no contact form
@@ -20,8 +28,28 @@ const VisitCTASection = () => {
   return (
     <section
       id="contact"
-      className="on-dark bg-primary-700 py-section lg:py-section-lg"
+      className="on-dark relative isolate overflow-hidden bg-primary-700 py-section lg:py-section-lg"
     >
+      {/*
+        Decorative: the heading, the address and the service times beside it
+        already say what the picture shows, so it carries no alt text.
+      */}
+      <Image
+        src={visitBackground}
+        alt=""
+        aria-hidden="true"
+        fill
+        sizes="100vw"
+        loading="lazy"
+        placeholder="blur"
+        className="-z-10 object-cover object-center"
+      />
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-primary-950/92 via-primary-800/88 to-primary-950/94"
+      />
+
       <div className="container">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
