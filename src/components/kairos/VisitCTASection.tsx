@@ -6,7 +6,7 @@ import {
   serviceTimes,
   visitorNotes,
 } from '@/content/church'
-import visitBackground from '@/assets/images/footer-bg.png'
+import visitBackground from '@/assets/images/footer-bg.jpg'
 import ChurchImage from './ChurchImage'
 import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
@@ -47,7 +47,9 @@ const VisitCTASection = () => {
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-primary-950/92 via-primary-800/88 to-primary-950/94"
+        // Bracket form: these opacities are off Tailwind's 5-step scale, and
+        // the plain slash form would silently generate no CSS at all.
+        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-primary-950/[.92] via-primary-800/[.88] to-primary-950/[.94]"
       />
 
       <div className="container">

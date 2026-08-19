@@ -39,6 +39,11 @@ const BrandMark = ({
         alt=""
         aria-hidden="true"
         priority={priority}
+        // The artwork is a 2048px square, but it never renders larger than
+        // 55px. Declaring 110 (2x the display size) lets the optimizer serve
+        // a file measured in single-digit kilobytes instead of the original.
+        width={110}
+        height={110}
         // 55px: 1.25x the 44px the mark stood at before.
         className="h-[55px] w-auto shrink-0"
       />

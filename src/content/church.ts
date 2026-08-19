@@ -104,6 +104,16 @@ export const church = {
   social: {
     facebook: 'https://www.facebook.com/kairosforchristconsolacion',
   },
+  /**
+   * Kairos Connect, the members' app. It lives on its own origin, which owns
+   * installation, offline behaviour and notifications — a page on this origin
+   * cannot install a PWA for another, so the public site only links across.
+   * Set to `null` until the app is live and the footer link disappears.
+   */
+  memberApp: {
+    name: 'Kairos Connect',
+    url: 'https://app.kairoschurchministry.com',
+  } as { name: string; url: string } | null,
 } as const
 
 export const serviceTimes: ServiceTime[] = [

@@ -1,7 +1,7 @@
 import type { StaticImageData } from 'next/image'
 
-import divineEncounter from '../divine-encounter.png'
-import ourCommunity from '../our-community.png'
+import divineEncounter from '../divine-encounter.jpg'
+import ourCommunity from '../our-community.jpg'
 
 /**
  * Photography slots for the public landing page.

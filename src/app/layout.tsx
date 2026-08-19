@@ -1,19 +1,25 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Caveat, REM } from 'next/font/google'
 import { type ReactNode } from 'react'
-import NextTopLoader from 'nextjs-toploader'
-import dynamic from 'next/dynamic'
-import { Toaster } from 'sonner'
 
 import '@/assets/css/style.css'
 import { church } from '@/content/church'
+import { siteUrl } from '@/content/site'
 
-const AppProvidersWrapper = dynamic(
-  () => import('@/components/AppsProviderWrapper'),
-  { ssr: false }
-)
+/*
+ * This layout is deliberately a pure server component. The public landing page
+ * is the only thing most visitors ever load, and it must arrive as fully
+ * rendered HTML: session, layout-theme and toast providers are client-side
+ * concerns of the admin and auth areas, so those areas mount them in their own
+ * layouts (see src/app/admin/layout.tsx and src/app/auth/layout.tsx) rather
+ * than forcing every visitor through a client-only wrapper that suppresses
+ * server rendering of the whole site.
+ */
+
 const rem = REM({
-  weight: ['300', '400', '500', '600', '700'],
+  // 300 is loaded nowhere on the site, so only the weights actually set in
+  // markup are shipped.
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
   adjustFontFallback: false,
   subsets: ['latin'],
@@ -29,12 +35,10 @@ const caveat = Caveat({
   variable: '--font-script',
 })
 
-/**
- * Set NEXT_PUBLIC_SITE_URL to the live domain in the deployment environment so
- * canonical and Open Graph URLs resolve absolutely. Falls back to localhost for
- * local development rather than guessing at a production hostname.
- */
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+export const viewport: Viewport = {
+  // The royal blue the header and hero open on, so the browser chrome matches.
+  themeColor: '#101d83',
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -58,13 +62,7 @@ export default function RootLayout({
 }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" className={`${rem.variable} ${caveat.variable}`}>
-      <body className={rem.className}>
-        <NextTopLoader color="#f29a22" showSpinner={false} />
-        <AppProvidersWrapper>
-          {children}
-          <Toaster richColors />
-        </AppProvidersWrapper>
-      </body>
+      <body className={rem.className}>{children}</body>
     </html>
   )
 }

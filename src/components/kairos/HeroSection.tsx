@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { LuClock, LuMapPin } from 'react-icons/lu'
 import { church, fullAddress, serviceTimes } from '@/content/church'
-import heroBackground from '@/assets/images/hero-bg.png'
+import heroBackground from '@/assets/images/hero-bg.jpg'
 import Reveal from './Reveal'
 import { VISIT_ANCHOR } from '@/content/navigation'
 
@@ -50,7 +50,9 @@ const HeroSection = () => {
       */}
       <div
         aria-hidden="true"
-        className="from-primary-950/86 via-primary-950/78 to-primary-950/88 sm:from-primary-950/88 sm:via-primary-950/72 pointer-events-none absolute inset-0 bg-gradient-to-b sm:bg-gradient-to-r sm:to-primary-950/50"
+        // Opacities not on Tailwind's 5-step scale must use the bracket form,
+        // or the class silently generates nothing and the scrim vanishes.
+        className="from-primary-950/[.86] via-primary-950/[.78] to-primary-950/[.88] sm:from-primary-950/[.88] sm:via-primary-950/[.72] pointer-events-none absolute inset-0 bg-gradient-to-b sm:bg-gradient-to-r sm:to-primary-950/50"
       />
 
       <div className="container relative w-full">

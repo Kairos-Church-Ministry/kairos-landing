@@ -1,4 +1,4 @@
-import { LuFacebook } from 'react-icons/lu'
+import { LuFacebook, LuSmartphone } from 'react-icons/lu'
 import { church, fullAddress, serviceTimes } from '@/content/church'
 import { navItems } from '@/content/navigation'
 import BrandMark from './BrandMark'
@@ -38,6 +38,20 @@ const PublicFooter = () => {
                 : {church.shortName} Consolacion (opens in a new tab)
               </span>
             </a>
+
+            {/* Kairos Connect lives on its own origin, which owns its own
+                installation and offline behaviour; from here it is simply a
+                link. Members open it, and its origin decides what to offer. */}
+            {church.memberApp && (
+              <a
+                href={church.memberApp.url}
+                className="ml-3 mt-6 inline-flex min-h-[44px] items-center gap-2.5 rounded-pill border border-white/20 px-5 text-sm font-semibold text-on-dark transition-colors duration-base hover:border-accent hover:text-accent"
+              >
+                <LuSmartphone className="h-4 w-4" aria-hidden="true" />
+                Open {church.memberApp.name}
+                <span className="sr-only">, the members&rsquo; app</span>
+              </a>
+            )}
           </Reveal>
 
           <Reveal delay={90}>
