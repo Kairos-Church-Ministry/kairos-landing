@@ -138,6 +138,41 @@ const PublicHeader = () => {
     }
   }, [isMenuOpen, closeMenu])
 
+  // While the drawer is open, horizontal swipes are swallowed so the browser
+  // cannot read them as a back/forward navigation gesture and yank the visitor
+  // off the page mid-menu. Vertical movement stays untouched — the drawer's
+  // own nav list still scrolls. (A true OS edge gesture, like iOS Safari's
+  // screen-edge back swipe, is browser UI and cannot be blocked from a page;
+  // this catches the in-page swipes, which are the common case.)
+  useEffect(() => {
+    if (!isMenuOpen) return
+
+    let startX = 0
+    let startY = 0
+
+    const onTouchStart = (event: TouchEvent) => {
+      startX = event.touches[0].clientX
+      startY = event.touches[0].clientY
+    }
+
+    const onTouchMove = (event: TouchEvent) => {
+      const dx = event.touches[0].clientX - startX
+      const dy = event.touches[0].clientY - startY
+      if (Math.abs(dx) > Math.abs(dy) && event.cancelable) {
+        event.preventDefault()
+      }
+    }
+
+    // `passive: false` is required — a passive listener is not allowed to
+    // call preventDefault, and touchmove listeners default to passive.
+    document.addEventListener('touchstart', onTouchStart, { passive: true })
+    document.addEventListener('touchmove', onTouchMove, { passive: false })
+    return () => {
+      document.removeEventListener('touchstart', onTouchStart)
+      document.removeEventListener('touchmove', onTouchMove)
+    }
+  }, [isMenuOpen])
+
   const navLinkClass = (id: string) =>
     cn(
       'relative inline-flex items-center rounded-sm px-1 py-2 text-[0.95rem] font-medium transition-colors duration-base',
@@ -236,25 +271,15 @@ const PublicHeader = () => {
       {/* Mobile navigation */}
       <div
         className={cn(
-          // `overflow-hidden` clips the panel while it sits parked off the
-          // right edge. Without it the closed drawer widens the page and the
-          // whole site can be scrolled sideways on a phone.
-          'fixed inset-0 z-[65] overflow-hidden lg:hidden',
-          // Visibility flips instantly on open, but on close it waits for the
-          // panel's slide-out to finish — hiding the wrapper immediately would
-          // cut the exit animation short and read as a flicker.
-          'transition-[visibility] duration-0',
-          isMenuOpen ? 'visible' : 'invisible delay-[250ms]'
+          // The drawer opens and closes instantly — no slide, no fade. On a
+          // phone an animated full-screen sheet reads as lag; an immediate
+          // switch always lands on the right frame.
+          'fixed inset-0 z-[65] lg:hidden',
+          isMenuOpen ? 'visible' : 'invisible'
         )}
         aria-hidden={!isMenuOpen}
       >
-        <div
-          className={cn(
-            'absolute inset-0 bg-navy/50 transition-opacity duration-base',
-            isMenuOpen ? 'opacity-100' : 'opacity-0'
-          )}
-          onClick={closeMenu}
-        />
+        <div className="absolute inset-0 bg-navy/50" onClick={closeMenu} />
 
         <div
           ref={panelRef}
@@ -265,12 +290,12 @@ const PublicHeader = () => {
           className={cn(
             // Full width on phones; from `sm` up a full-screen sheet would
             // feel oversized, so it narrows back to a side panel.
-            'absolute inset-y-0 right-0 flex w-full flex-col bg-cream-50 shadow-lifted transition-transform duration-base sm:w-[min(20rem,85vw)]',
-            isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+            // `touch-pan-y` tells the browser up front that only vertical
+            // panning is meaningful here, backing up the swipe guard above.
+            'absolute inset-y-0 right-0 flex w-full touch-pan-y flex-col bg-cream-50 shadow-lifted sm:w-[min(20rem,85vw)]'
           )}
         >
-          <div className="flex h-[72px] items-center justify-between border-b border-line px-5">
-            <BrandMark />
+          <div className="flex h-[72px] items-center justify-end border-b border-line px-5">
             <button
               type="button"
               onClick={closeMenu}
@@ -281,7 +306,12 @@ const PublicHeader = () => {
             </button>
           </div>
 
-          <nav aria-label="Mobile" className="flex-1 overflow-y-auto px-5 py-4">
+          {/* `overscroll-contain` keeps a scroll that reaches the list's end
+              from chaining into the page (or a browser refresh/back gesture). */}
+          <nav
+            aria-label="Mobile"
+            className="flex-1 overflow-y-auto overscroll-contain px-5 py-4"
+          >
             <ul className="flex flex-col">
               {navItems.map((item) => (
                 <li key={item.id}>
