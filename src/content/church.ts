@@ -84,7 +84,7 @@ export const church = {
   welcomeNote:
     'Welcome to Kairos for Christ Christian Fellowship. We are excited to have you here. Our community warmly welcomes everyone, and we encourage you to connect with us. We hope you find peace, inspiration, and a sense of belonging.',
   welcomeSignatory: {
-    name: 'Bp. Jose Sheldon M. Fabra',
+    name: 'Bp. Jae Shelbin M. Fabro',
     role: 'Bishop',
   },
   vision:
