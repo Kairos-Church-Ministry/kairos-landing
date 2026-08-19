@@ -6,6 +6,7 @@ import {
   MinistriesSection,
   PublicFooter,
   PublicHeader,
+  ScrollTopButton,
   UpcomingEventsSection,
   VisionMissionSection,
   VisitCTASection,
@@ -99,6 +100,7 @@ export default function Home() {
       </main>
 
       <PublicFooter />
+      <ScrollTopButton />
     </div>
   )
 }

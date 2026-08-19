@@ -240,7 +240,11 @@ const PublicHeader = () => {
           // right edge. Without it the closed drawer widens the page and the
           // whole site can be scrolled sideways on a phone.
           'fixed inset-0 z-[65] overflow-hidden lg:hidden',
-          isMenuOpen ? 'visible' : 'invisible'
+          // Visibility flips instantly on open, but on close it waits for the
+          // panel's slide-out to finish — hiding the wrapper immediately would
+          // cut the exit animation short and read as a flicker.
+          'transition-[visibility] duration-0',
+          isMenuOpen ? 'visible' : 'invisible delay-[250ms]'
         )}
         aria-hidden={!isMenuOpen}
       >
@@ -259,7 +263,9 @@ const PublicHeader = () => {
           aria-modal="true"
           aria-label="Site menu"
           className={cn(
-            'absolute inset-y-0 right-0 flex w-[min(20rem,85vw)] flex-col bg-cream-50 shadow-lifted transition-transform duration-base',
+            // Full width on phones; from `sm` up a full-screen sheet would
+            // feel oversized, so it narrows back to a side panel.
+            'absolute inset-y-0 right-0 flex w-full flex-col bg-cream-50 shadow-lifted transition-transform duration-base sm:w-[min(20rem,85vw)]',
             isMenuOpen ? 'translate-x-0' : 'translate-x-full'
           )}
         >
